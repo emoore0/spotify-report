@@ -13,28 +13,38 @@ class Spotireport:
 	#def __init__(self):
 		
 	def authenticate(self,scope=None):
+		# This method allows to connect to spotify API. It uses values from the imported credentials file to authenticate the user
 		authentication = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=credentials.client_id, client_secret= credentials.client_secret, redirect_uri=credentials.redirect_url, scope=scope))
 
 		return authentication
 
 
 	def top_tracks(self,time_range,number):
+		#This method is used to return a list of the top tracks you have listened in a given time frame and gives info on them
 		scope = "user-top-read"
 		sp = self.authenticate(scope)
+		#Asks Spotify for info on top tracks
 		results = sp.current_user_top_tracks(number,time_range=time_range)
+		#Gives a list of all the top tracks
 		#print(results['items'])
-		self.term += str(time_range)
+		self.term += str(time_range)##########################
 		album = []
 		release_date = []
 		artist = []
 		track = []
 		
 		for idx, item in enumerate(results['items']):
+			#e.g. 0,item1 1,item2
 			album.append(str(results['items'][idx]['album']['name']))
+			#adds album name to album list
 			release_date.append(str(results['items'][idx]['album']['release_date']))
+			#adds release date to release date list
 			artist.append(str(results['items'][idx]['album']['artists'][0]['name']))
+			#add artist name to artist list
 			track.append(str(results['items'][idx]['name']))
+			#add track name to track list
 			self.track_artist_ids.append(results['items'][idx]['artists'][0]['id'])
+			#add track id to track list
 		#return results['items'][0]
 
 		if time_range == 'short_term':
@@ -46,6 +56,8 @@ class Spotireport:
 		self.track_table += '\n'
 
 		numbers = []
+		#number is the number of tracks you want to be listed. 
+		#The below loop creates a list of numbers based on the amount of tracks you want to see
 		for x in range(number):
 			numbers.append(str(x+1))
 
@@ -247,6 +259,6 @@ class Spotireport:
 
 x = Spotireport()
 #x.top_tracks('short_term',10)
-print(x.top_artists('short_term',10))
+print(x.top_tracks('short_term',10))
 #x.track_analysis()
 #print(x.compare('short_term','medium_term'))
