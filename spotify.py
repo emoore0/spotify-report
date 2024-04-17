@@ -247,6 +247,6 @@ class Spotireport:
 
 x = Spotireport()
 #x.top_tracks('short_term',10)
-print(x.top_artists('short_term',10))
+#print(x.top_artists('short_term',10))
 #x.track_analysis()
 #print(x.compare('short_term','medium_term'))
