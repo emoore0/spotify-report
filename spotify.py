@@ -61,7 +61,7 @@ class Spotireport:
 		for x in range(number):
 			numbers.append(str(x+1))
 
-		lnumber = max(numbers,key=len)
+		lnumber = max(numbers,key=len)#finds the largest number by length
 		count = f'|No.'+ ' '*(len(lnumber)-len('No.'))+' '
 		self.track_table += count
 
@@ -83,14 +83,15 @@ class Spotireport:
 		self.track_table += '\n'
 		self.track_table += '-'*(len(count)+len(tracks)+len(albums)+len(artists)+len(date))
 		self.track_table += '\n'
+		#The above creates the headers for our table
 		for z,a,b,c,d in zip(numbers,track,album,artist,release_date):
-			self.track_table += f'|{z}. '
+			self.track_table += f'|{z}. '#allowss you to directly input the number in the string
 			self.track_table += ' '*(len(count)-len(z)-3)+f'| {a} '
 			self.track_table += ' '*(len(tracks)-len(a)-3) + f'|{b} ' 
 			self.track_table += ' '*(len(albums)-len(b)-2) + f'|{c} '
 			self.track_table += ' '*(len(artists)-len(c)-2) + f'|{d} '+' '*(len(date)-len(ldate)-3) + '|'
 			self.track_table += f'\n'
-			
+			#This lists all the info about your most listened to tracks in a neat table
 		return self.track_table
 
 	def top_artists(self,time_range,number):
@@ -258,7 +259,7 @@ class Spotireport:
 		return comp_report
 
 x = Spotireport()
-#x.top_tracks('short_term',10)
-print(x.top_tracks('short_term',10))
+x.top_artists('short_term',10)
+print(x.top_artists('short_term',10))
 #x.track_analysis()
 #print(x.compare('short_term','medium_term'))
