@@ -157,7 +157,7 @@ class Spotireport:
 		self.list_genre = genre
 		return self.artist_table
 
-	def artist_analysis(self):
+	def genre_analysis(self):
 		genres = dict()
 		sp = self.authenticate()
 
@@ -192,10 +192,6 @@ class Spotireport:
 
 		plt.tight_layout()
 		plt.show()
-		
-
-
-	
 
 
 	def compare(self,time_range1,time_range2):
@@ -267,5 +263,5 @@ class Spotireport:
 x = Spotireport()
 #x.top_tracks('short_term',2)
 x.top_artists('short_term',30)
-x.artist_analysis()
+x.genre_analysis()
 #print(x.compare('short_term','medium_term'))
