@@ -103,6 +103,7 @@ class Spotireport:
 		#print(results['items'][0]['genres'][0])
 		genre = []
 		artist = []
+		self.term = time_range
 
 		
 		for idx, item in enumerate(results['items']):
@@ -165,8 +166,26 @@ class Spotireport:
 		
 		total = sum(genres.values())
 		for k,v in genres.items():
-			genres[k] = (v/total)*100
-		sorted_genres = dict(sorted(genres.items(), key = lambda, item:item[1],reverse = True))
+			genres[k] = round(((v/total)*100))
+		sorted_genres = dict(sorted(genres.items(), key = lambda item:item[1],reverse = True))
+
+		genre_names = list(sorted_genres.keys())
+		genre_percentages = list(sorted_genres.values())
+		plt.figure(figsize=(10,6))
+		plt.pie(genre_percentages,labels=genre_names, autopct='%1.0f%%')
+		#plt.xlabel('Genres')
+		#plt.ylabel('Percentage (%)')
+		if self.term == 'short_term':
+			plt.title('Your Spotify Genre Distribution in the Last 4 Weeks')
+		elif self.term == 'medium_term':
+			plt.title('Your Spotify Genre Distribution in the Last 6 Months')
+		elif self.term == 'long_term':
+			plt.title('Your Spotify Genre Distribution in the Last Several Years')
+		else: 
+			plt.title('Your Spotify Genre Distribution')
+
+		plt.tight_layout()
+		plt.show()
 		
 
 
@@ -283,6 +302,6 @@ class Spotireport:
 
 x = Spotireport()
 #x.top_tracks('short_term',2)
-print(x.top_artists('short_term',30))
-print(x.artist_analysis())
+x.top_artists('short_term',30)
+x.artist_analysis()
 #print(x.compare('short_term','medium_term'))
