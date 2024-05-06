@@ -168,6 +168,12 @@ class Spotireport:
 		for k,v in genres.items():
 			genres[k] = round(((v/total)*100))
 		sorted_genres = dict(sorted(genres.items(), key = lambda item:item[1],reverse = True))
+	#-----------------------------------------------------IMPORTANT!--------------------------------------------------
+ 	#A lambda function in Python is a compact, anonymous function defined using the lambda keyword. 
+ 	#It's designed for short, simple tasks and consists of input parameters and a single expression.
+ 	# For example, lambda x: x * 2 doubles a value x. Lambda functions are often used with functions like sorted() to define custom sorting keys. 
+ 	#In sorted(items, key=lambda item: item[1]), it sorts items based on the second element of each item.
+ 	#-----------------------------------------------------IMPORTANT!--------------------------------------------------
 
 		genre_names = list(sorted_genres.keys())
 		genre_percentages = list(sorted_genres.values())
@@ -189,50 +195,8 @@ class Spotireport:
 		
 
 
-	def track_analysis(self):
-		#has to be used in conjuction with top tracks method
-		genres = dict()
-		sp = self.authenticate()
-		for i in self.track_artist_ids:
-			results = sp.artist(i)
-			#based on who the artist is we return ttheir genre of music.
-			if results['genres'] == [] :
-				genres['unavailable'] = genres.get('unavailable',0) + 1
-				#if there is no genre assigned then we return unavailable and increase the number of artists in that genre by one
-			elif 'hip' in results['genres'][0]:
-				genres['hip hop'] = genres.get('hip hop',0) + 1
-			elif 'rap' in results['genres'][0]:
-				genres['rap'] = genres.get('rap',0) + 1
-			else:
-				genres[results['genres'][0]] = genres.get(results['genres'][0],0) + 1
-				#we increase the number of times that genre appears by on
-		
-		total = sum(genres.values())
-		for k,v in genres.items():
-			genres[k] = (v/total)*100
-		sorted_genres = dict(sorted(genres.items(), key=lambda item: item[1], reverse=True))
-	#-----------------------------------------------------IMPORTANT!--------------------------------------------------
- 	#A lambda function in Python is a compact, anonymous function defined using the lambda keyword. 
- 	#It's designed for short, simple tasks and consists of input parameters and a single expression.
- 	# For example, lambda x: x * 2 doubles a value x. Lambda functions are often used with functions like sorted() to define custom sorting keys. 
- 	#In sorted(items, key=lambda item: item[1]), it sorts items based on the second element of each item.
- 	#-----------------------------------------------------IMPORTANT!--------------------------------------------------
-		genre_names = list(sorted_genres.keys())
-		genre_percentages = list(sorted_genres.values())
-		plt.figure(figsize=(10,6))
-		plt.pie(genre_percentages,labels = genre_names)
-		#plt.xlabel('Genres')
-		#plt.ylabel('Percentage (%)')
-		if self.term == 'short_term':
-			plt.title('Genre Distribution in the Last 4 Weeks')
-		elif self.term == 'medium_term':
-			plt.title('Genre Distribution in the Last 6 Months')
-		elif self.term == 'long_term':
-			plt.title('Genre Distribution in the Last Several Years')
+	
 
-		plt.tight_layout()
-		plt.show()
-		#return sorted_genres
 
 	def compare(self,time_range1,time_range2):
 		comp_report = ''
