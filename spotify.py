@@ -33,6 +33,7 @@ class Spotireport:
 		artist = []
 		track = []
 		
+		
 		for idx, item in enumerate(results['items']):
 			#e.g. 0,item1 1,item2
 			album.append(str(results['items'][idx]['album']['name']))
@@ -91,7 +92,7 @@ class Spotireport:
 			self.track_table += ' '*(len(albums)-len(b)-2) + f'|{c} '
 			self.track_table += ' '*(len(artists)-len(c)-2) + f'|{d} '+' '*(len(date)-len(ldate)-3) + '|'
 			self.track_table += f'\n'
-			#This lists all the info about your most listened to tracks in a neat table
+			#This lists all the info about your most listened to tracks in a neat table. It does not list any features
 		return self.track_table
 
 	def top_artists(self,time_range,number):
@@ -101,17 +102,20 @@ class Spotireport:
 		#print(results['items'][0]['genres'][0])
 		genre = []
 		artist = []
-	
+
+		
 		for idx, item in enumerate(results['items']):
 			artist.append(results['items'][idx]['name'])
 			#genre.append(results['items'][idx]['genres'][0])
 			genre_list = results['items'][idx]['genres'][0].split()
+			#here we assume the first genre mentioned from the api is the main genre of the song
 			if 'hip' in genre_list:
 				genre.append('hip hop')
 			elif 'rap' in genre_list:
 				genre.append('rap')
 			else:
 				genre.append(results['items'][idx]['genres'][0])
+			#this has been tailored to my music taste which explains the adjustments made for certain genres
 
 
 
@@ -259,7 +263,7 @@ class Spotireport:
 		return comp_report
 
 x = Spotireport()
-x.top_artists('short_term',10)
-print(x.top_artists('short_term',10))
+#x.top_tracks('short_term',2)
+print(x.top_artists('short_term',2))
 #x.track_analysis()
 #print(x.compare('short_term','medium_term'))
