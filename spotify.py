@@ -166,6 +166,7 @@ class Spotireport:
 		total = sum(genres.values())
 		for k,v in genres.items():
 			genres[k] = (v/total)*100
+		sorted_genres = dict(sorted(genres.items(), key = lambda, item:item[1],reverse = True))
 		
 
 
