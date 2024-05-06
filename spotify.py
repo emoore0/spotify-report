@@ -9,6 +9,7 @@ class Spotireport:
 	track_table = ''
 	artist_table = ''
 	track_artist_ids = []
+	list_genre = []
 	term = ''
 	#def __init__(self):
 		
@@ -150,24 +151,37 @@ class Spotireport:
 			self.artist_table += f' '*(len(count)-len(a)-3) + f'|{b} '
 			self.artist_table += f' '*(len(artists)-len(b)-2) + f'|{c} '
 			self.artist_table += f'\n'
-
-
+		#this codes allows your top listened artists to be displayed in a table
+  
+		self.list_genre = genre
 		return self.artist_table
 
+	def artist_analysis(self):
+		genres = dict()
+		sp = self.authenticate()
+
+		for i in self.list_genre:
+			genres[i] = genres.get(i,0) + 1
+		return genres
+
+
 	def track_analysis(self):
+		#has to be used in conjuction with top tracks method
 		genres = dict()
 		sp = self.authenticate()
 		for i in self.track_artist_ids:
 			results = sp.artist(i)
-			#return sp.artist(self.track_artist_ids[25])['genres'] == []
+			#based on who the artist is we return ttheir genre of music.
 			if results['genres'] == [] :
 				genres['unavailable'] = genres.get('unavailable',0) + 1
+				#if there is no genre assigned then we return unavailable and increase the number of artists in that genre by one
 			elif 'hip' in results['genres'][0]:
 				genres['hip hop'] = genres.get('hip hop',0) + 1
 			elif 'rap' in results['genres'][0]:
 				genres['rap'] = genres.get('rap',0) + 1
 			else:
 				genres[results['genres'][0]] = genres.get(results['genres'][0],0) + 1
+				#we increase the number of times that genre appears by on
 		
 		total = sum(genres.values())
 		for k,v in genres.items():
@@ -264,6 +278,6 @@ class Spotireport:
 
 x = Spotireport()
 #x.top_tracks('short_term',2)
-print(x.top_artists('short_term',2))
-#x.track_analysis()
+print(x.top_artists('short_term',30))
+print(x.artist_analysis())
 #print(x.compare('short_term','medium_term'))
