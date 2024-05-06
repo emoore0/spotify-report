@@ -162,7 +162,11 @@ class Spotireport:
 
 		for i in self.list_genre:
 			genres[i] = genres.get(i,0) + 1
-		return genres
+		
+		total = sum(genres.values())
+		for k,v in genres.items():
+			genres[k] = (v/total)*100
+		
 
 
 	def track_analysis(self):
