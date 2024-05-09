@@ -2,7 +2,7 @@ import spotipy
 from spotipy.oauth2 import SpotifyOAuth
 import credentials
 import matplotlib.pyplot as plt
-
+import numpy as np
 
 class Spotireport:
 
@@ -178,9 +178,21 @@ class Spotireport:
 		genre_names = list(sorted_genres.keys())
 		genre_percentages = list(sorted_genres.values())
 		plt.figure(figsize=(10,6))
-		plt.pie(genre_percentages,labels=genre_names, autopct='%1.0f%%')
-		#plt.xlabel('Genres')
-		#plt.ylabel('Percentage (%)')
+		#plt.pie(genre_percentages,labels=genre_names, autopct='%1.0f%%')
+  
+		cmap = plt.get_cmap('plasma')  # You can change 'viridis' to other colormaps like 'plasma', 'inferno', 'magma', etc.
+		colors = cmap(np.linspace(0, 1, len(genre_names)))
+
+		plt.bar(genre_names,genre_percentages,color=colors)
+
+		for i in range(len(genre_percentages)):
+			plt.text(i, genre_percentages[i] + 0.5, str(genre_percentages[i])+'%', ha='center')
+
+		plt.xlabel('Genres')
+		plt.ylabel('Percentage (%)')
+
+
+
 		if self.term == 'short_term':
 			plt.title('Your Spotify Genre Distribution in the Last 4 Weeks')
 		elif self.term == 'medium_term':
