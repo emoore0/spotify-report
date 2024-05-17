@@ -206,20 +206,25 @@ class Spotireport:
 		plt.show()
 
 
+	#This is an incomplete feature that needs we are working on
+	'''
 	def compare(self,time_range1,time_range2):
 		comp_report = ''
 		scope = "user-top-read"
 		sp = self.authenticate(scope)
 		results1 = sp.current_user_top_tracks(50,time_range=time_range1)
 		results2 = sp.current_user_top_tracks(50,time_range=time_range2)
+
 		track_id_1 = []
 		track_id_2 = []
+		#puts the id numbers of the top 50 tracks in the given time range in each list
 		for idx, item in enumerate(results1['items']):
 			track_id_1.append(results1['items'][idx]['artists'][0]['id'])
 
 		for idx, item in enumerate(results2['items']):
 			track_id_2.append(results2['items'][idx]['artists'][0]['id'])
 
+		
 		genres1 = dict()
 		genres2 = dict()
 
@@ -232,8 +237,12 @@ class Spotireport:
 				genres1['hip hop'] = genres1.get('hip hop',0) + 1
 			elif 'rap' in results_a['genres'][0]:
 				genres1['rap'] = genres1.get('rap',0) + 1
+			elif 'r&b' in results_a['genres'][0]:
+				genres1['r&b'] = genres1.get('r&b',0) + 1
 			else:
 				genres1[results_a['genres'][0]] = genres1.get(results_a['genres'][0],0) + 1
+
+		
 
 		for i in track_id_2:
 			results_b = sp.artist(i)
@@ -243,9 +252,12 @@ class Spotireport:
 				genres2['hip hop'] = genres2.get('hip hop',0) + 1
 			elif 'rap' in results_b['genres'][0]:
 				genres2['rap'] = genres2.get('rap',0) + 1
+			elif 'r&b' in results_b['genres'][0]:
+				genres2['r&b'] = genres2.get('r&b',0) + 1
 			else:
 				genres2[results_b['genres'][0]] = genres2.get(results_b['genres'][0],0) + 1
 		
+
 		comp_report += 'Your Comparison Report is ready\n'
 		if time_range1 == 'short_term':
 			comp_report += f'Last 4 Weeks'
@@ -267,13 +279,15 @@ class Spotireport:
 		most_listened1 = max(genres1,key = lambda x:genres1[x])
 		most_listened2 = max(genres2,key = lambda x:genres2[x])
 
-
-
-
 		return comp_report
+		'''
+
+
+
+		
 
 x = Spotireport()
 #x.top_tracks('short_term',2)
-x.top_artists('short_term',30)
+x.top_artists('long_term',50)
 x.genre_analysis()
 #print(x.compare('short_term','medium_term'))
