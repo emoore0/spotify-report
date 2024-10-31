@@ -3,7 +3,6 @@ from spotipy.oauth2 import SpotifyOAuth
 import credentials
 import matplotlib.pyplot as plt
 import numpy as np
-import numpy as np
 
 class Spotireport:
 
@@ -11,13 +10,10 @@ class Spotireport:
 	artist_table = ''
 	track_artist_ids = []
 	list_genre = []
-	list_genre = []
 	term = ''
-	# def __init__(self):
 	# def __init__(self):
 		
 	def authenticate(self,scope=None):
-		''' This method allows to connect to spotify API. It uses values from the imported credentials file to authenticate the user'''
 		''' This method allows to connect to spotify API. It uses values from the imported credentials file to authenticate the user'''
 		authentication = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=credentials.client_id, client_secret= credentials.client_secret, redirect_uri=credentials.redirect_url, scope=scope))
 
@@ -26,14 +22,10 @@ class Spotireport:
 
 	def top_tracks(self,time_range,number):
 		''' This method is used to return a list of the top tracks you have listened in a given time frame and gives info on them'''
-		''' This method is used to return a list of the top tracks you have listened in a given time frame and gives info on them'''
 		scope = "user-top-read"
 		sp = self.authenticate(scope)
 		'''Asks Spotify for info on top tracks'''
-		'''Asks Spotify for info on top tracks'''
 		results = sp.current_user_top_tracks(number,time_range=time_range)
-		'''Gives a list of all the top tracks'''
-		# print(results['items'])
 		'''Gives a list of all the top tracks'''
 		# print(results['items'])
 		self.term += str(time_range)
@@ -43,25 +35,17 @@ class Spotireport:
 		track = []
 		
 		
-		
 		for idx, item in enumerate(results['items']):
-			''' e.g. 0,item1 1,item2'''
 			''' e.g. 0,item1 1,item2'''
 			album.append(str(results['items'][idx]['album']['name']))
 			'''adds album name to album list'''
-			'''adds album name to album list'''
 			release_date.append(str(results['items'][idx]['album']['release_date']))
-			'''adds release date to release date list'''
 			'''adds release date to release date list'''
 			artist.append(str(results['items'][idx]['album']['artists'][0]['name']))
 			'''add artist name to artist list'''
-			'''add artist name to artist list'''
 			track.append(str(results['items'][idx]['name']))
 			'''add track name to track list'''
-			'''add track name to track list'''
 			self.track_artist_ids.append(results['items'][idx]['artists'][0]['id'])
-			'''add track id to track list'''
-		# return results['items'][0]
 			'''add track id to track list'''
 		# return results['items'][0]
 
@@ -76,13 +60,9 @@ class Spotireport:
 		numbers = []
 		''' number is the number of tracks you want to be listed.'''
 		'''The below loop creates a list of numbers based on the amount of tracks you want to see'''
-		''' number is the number of tracks you want to be listed.'''
-		'''The below loop creates a list of numbers based on the amount of tracks you want to see'''
 		for x in range(number):
 			numbers.append(str(x+1))
 
-		lnumber = max(numbers,key=len) 
-		'''#finds the largest number by length'''
 		lnumber = max(numbers,key=len) 
 		'''#finds the largest number by length'''
 		count = f'|No.'+ ' '*(len(lnumber)-len('No.'))+' '
@@ -107,10 +87,7 @@ class Spotireport:
 		self.track_table += '-'*(len(count)+len(tracks)+len(albums)+len(artists)+len(date))
 		self.track_table += '\n'
 		''' The above creates the headers for our table '''
-		''' The above creates the headers for our table '''
 		for z,a,b,c,d in zip(numbers,track,album,artist,release_date):
-			self.track_table += f'|{z}. '  
-			'''allows you to directly input the number in the string '''
 			self.track_table += f'|{z}. '  
 			'''allows you to directly input the number in the string '''
 			self.track_table += ' '*(len(count)-len(z)-3)+f'| {a} '
@@ -119,7 +96,6 @@ class Spotireport:
 			self.track_table += ' '*(len(artists)-len(c)-2) + f'|{d} '+' '*(len(date)-len(ldate)-3) + '|'
 			self.track_table += f'\n'
 			''' This lists all the info about your most listened to tracks in a neat table. It does not list any features '''
-			''' This lists all the info about your most listened to tracks in a neat table. It does not list any features '''
 		return self.track_table
 
 	def top_artists(self,time_range,number):
@@ -127,21 +103,15 @@ class Spotireport:
 		sp = self.authenticate(scope)
 		results = sp.current_user_top_artists(number,time_range=time_range)
 		# print(results['items'][0]['genres'][0])
-		# print(results['items'][0]['genres'][0])
 		genre = []
 		artist = []
-		self.term = time_range
-
-		
 		self.term = time_range
 
 		
 		for idx, item in enumerate(results['items']):
 			artist.append(results['items'][idx]['name'])
 			# genre.append(results['items'][idx]['genres'][0])
-			# genre.append(results['items'][idx]['genres'][0])
 			genre_list = results['items'][idx]['genres'][0].split()
-			''' here we assume the first genre mentioned from the api is the main genre of the song '''
 			''' here we assume the first genre mentioned from the api is the main genre of the song '''
 			if 'hip' in genre_list:
 				genre.append('hip hop')
@@ -149,7 +119,6 @@ class Spotireport:
 				genre.append('rap')
 			else:
 				genre.append(results['items'][idx]['genres'][0])
-			''' this has been tailored to my music taste which explains the adjustments made for certain genres '''
 			''' this has been tailored to my music taste which explains the adjustments made for certain genres '''
 
 
@@ -188,18 +157,11 @@ class Spotireport:
 		''' this codes allows your top listened artists to be displayed in a table'''
   
 		self.list_genre = genre
-		''' this codes allows your top listened artists to be displayed in a table'''
-  
-		self.list_genre = genre
 		return self.artist_table
 
 	def genre_analysis(self):
-	def genre_analysis(self):
 		genres = dict()
 		sp = self.authenticate()
-
-		for i in self.list_genre:
-			genres[i] = genres.get(i,0) + 1
 
 		for i in self.list_genre:
 			genres[i] = genres.get(i,0) + 1
@@ -212,16 +174,7 @@ class Spotireport:
 	# -----------------------------------------------------IMPORTANT!--------------------------------------------------
  	# A lambda function in Python is a compact, anonymous function defined using the lambda keyword. 
  	# It's designed for short, simple tasks and consists of input parameters and a single expression.
-			genres[k] = round(((v/total)*100))
-		sorted_genres = dict(sorted(genres.items(), key = lambda item:item[1],reverse = True))
-	
-	# -----------------------------------------------------IMPORTANT!--------------------------------------------------
- 	# A lambda function in Python is a compact, anonymous function defined using the lambda keyword. 
- 	# It's designed for short, simple tasks and consists of input parameters and a single expression.
  	# For example, lambda x: x * 2 doubles a value x. Lambda functions are often used with functions like sorted() to define custom sorting keys. 
- 	# In sorted(items, key=lambda item: item[1]), it sorts items based on the second element of each item.
- 	# -----------------------------------------------------IMPORTANT!--------------------------------------------------
-	
  	# In sorted(items, key=lambda item: item[1]), it sorts items based on the second element of each item.
  	# -----------------------------------------------------IMPORTANT!--------------------------------------------------
 	
@@ -243,31 +196,11 @@ class Spotireport:
 
 
 
-		# plt.pie(genre_percentages,labels=genre_names, autopct='%1.0f%%')
-  
-		cmap = plt.get_cmap('plasma')  # You can change 'viridis' to other colormaps like 'plasma', 'inferno', 'magma', etc.
-		colors = cmap(np.linspace(0, 1, len(genre_names)))
-
-		plt.bar(genre_names,genre_percentages,color=colors)
-
-		for i in range(len(genre_percentages)):
-			plt.text(i, genre_percentages[i] + 0.5, str(genre_percentages[i])+'%', ha='center')
-
-		plt.xlabel('Genres')
-		plt.ylabel('Percentage (%)')
-
-
-
 		if self.term == 'short_term':
-			plt.title('Your Spotify Genre Distribution in the Last 4 Weeks')
 			plt.title('Your Spotify Genre Distribution in the Last 4 Weeks')
 		elif self.term == 'medium_term':
 			plt.title('Your Spotify Genre Distribution in the Last 6 Months')
-			plt.title('Your Spotify Genre Distribution in the Last 6 Months')
 		elif self.term == 'long_term':
-			plt.title('Your Spotify Genre Distribution in the Last Several Years')
-		else: 
-			plt.title('Your Spotify Genre Distribution')
 			plt.title('Your Spotify Genre Distribution in the Last Several Years')
 		else: 
 			plt.title('Your Spotify Genre Distribution')
@@ -276,9 +209,6 @@ class Spotireport:
 		plt.show()
 
 
-
-	# This is an incomplete feature that needs we are working on
-	'''
 	# This is an incomplete feature that needs we are working on
 	'''
 	def compare(self,time_range1,time_range2):
@@ -288,18 +218,14 @@ class Spotireport:
 		results1 = sp.current_user_top_tracks(50,time_range=time_range1)
 		results2 = sp.current_user_top_tracks(50,time_range=time_range2)
 
-
 		track_id_1 = []
 		track_id_2 = []
-		#puts the id numbers of the top 50 tracks in the given time range in each list
 		#puts the id numbers of the top 50 tracks in the given time range in each list
 		for idx, item in enumerate(results1['items']):
 			track_id_1.append(results1['items'][idx]['artists'][0]['id'])
 
 		for idx, item in enumerate(results2['items']):
 			track_id_2.append(results2['items'][idx]['artists'][0]['id'])
-
-		
 
 		
 		genres1 = dict()
@@ -316,12 +242,8 @@ class Spotireport:
 				genres1['rap'] = genres1.get('rap',0) + 1
 			elif 'r&b' in results_a['genres'][0]:
 				genres1['r&b'] = genres1.get('r&b',0) + 1
-			elif 'r&b' in results_a['genres'][0]:
-				genres1['r&b'] = genres1.get('r&b',0) + 1
 			else:
 				genres1[results_a['genres'][0]] = genres1.get(results_a['genres'][0],0) + 1
-
-		
 
 		
 
@@ -335,12 +257,8 @@ class Spotireport:
 				genres2['rap'] = genres2.get('rap',0) + 1
 			elif 'r&b' in results_b['genres'][0]:
 				genres2['r&b'] = genres2.get('r&b',0) + 1
-			elif 'r&b' in results_b['genres'][0]:
-				genres2['r&b'] = genres2.get('r&b',0) + 1
 			else:
 				genres2[results_b['genres'][0]] = genres2.get(results_b['genres'][0],0) + 1
-		
-
 		
 
 		comp_report += 'Your Comparison Report is ready\n'
@@ -370,17 +288,8 @@ class Spotireport:
 
 
 		
-	'''
-
-
-
-		
 
 x = Spotireport()
-# x.top_tracks('short_term',2)
-print(x.top_tracks('medium_term',10))
-# x.genre_analysis()
-# print(x.compare('short_term','medium_term'))
 # x.top_tracks('short_term',2)
 print(x.top_tracks('medium_term',10))
 # x.genre_analysis()
